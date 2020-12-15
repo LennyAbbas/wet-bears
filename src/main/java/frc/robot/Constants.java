@@ -18,34 +18,34 @@ package frc.robot;
  * wherever the constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public double maxMetersPerSecond = 3.66;
-    public double maxRadiansPerSecond = 8.76;
+    public static final double MAX_METERS_PER_SECOND = 3.66;
+    public static final double MAX_RADIANS_PER_SECOND = 8.76;
 
-    public int m_frontLeftDriveMotorPort = 8;
-    public int m_frontLeftTurningMotorPort = 1;
+    public static final int FRONT_LEFT_DRIVE_MOTOR_PORT = 8;
+    public static final int FRONT_LEFT_TURNING_MOTOR_PORT = 1;
 
-    public int m_backLeftDriveMotorPort = 2;
-    public int m_backLeftTurningMotorPort = 3;
+    public static final int FRONT_RIGHT_DRIVE_MOTOR_PORT = 4;
+    public static final int FRONT_RIGHT_TURNING_MOTOR_PORT = 5;
 
-    public int m_frontRightDriveMotorPort = 4;
-    public int m_frontRightTurningMotorPort = 5;
+    public static final int BACK_LEFT_DRIVE_MOTOR_PORT = 2;
+    public static final int BACK_LEFT_TURNING_MOTOR_PORT = 3;
 
-    public int m_backRightDriveMotorPort = 6;
-    public int m_backRightTurningMotorPort = 7;
+    public static final int BACK_RIGHT_DRIVE_MOTOR_PORT = 6;
+    public static final int BACK_RIGHT_TURNING_MOTOR_PORT = 7;
 
-    public double swerveX = .67 / 2;
-    public double swerveY = .25;
+    public static final double SWERVE_X = .67 / 2;
+    public static final double SWERVE_Y = .25;
 
-    public int m_frontLeftTurningEncoderPort = 0;
-    public int m_frontRightTurningEncoderPort = 1;
-    public int m_backLeftTurningEncoderPort = 2;
-    public int m_backRightTurningEncoderPort = 3;
+    public static final int FRONT_LEFT_TURNING_ENCODER_PORT = 0;
+    public static final int FRONT_RIGHT_TURNING_ENCODER_PORT = 1;
+    public static final int BACK_LEFT_TURNING_ENCODER_PORT = 2;
+    public static final int BACK_RIGHT_TURNING_ENCODER_PORT = 3;
 
-    public double frontLeftSwerveOffset = 2.254991;
-    public double frontRightSwerveOffset = 2.466641;
-    public double backLeftSwerveOffset = .279;
-    public double backRightSwerveOffset = 3.25;
+    public static final double FRONT_LEFT_SWERVE_OFFSET = 2.254991;
+    public static final double FRONT_RIGHT_SWERVE_OFFSET = 2.466641;
+    public static final double BACK_LEFT_SWERVE_OFFSET = .279;
+    public static final double BACK_RIGHT_SWERVE_OFFSET = 3.25;
 
-    public double translationalFriction = 0.0205;
+    public static final double TRANSLATIONAL_FRICTION = 0.0205;
 
 }

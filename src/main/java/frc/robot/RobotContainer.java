@@ -24,9 +24,8 @@ import frc.robot.subsystems.SwerveDrivetrain;
 public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
-  Constants constants = new Constants();
-  SwerveDrivetrain swerveDrivetrain = new SwerveDrivetrain(constants);
-  SwerveJoystickCommand swerveJoystickCommand = new SwerveJoystickCommand(swerveDrivetrain, constants);
+  SwerveDrivetrain swerveDrivetrain = new SwerveDrivetrain();
+  SwerveJoystickCommand swerveJoystickCommand = new SwerveJoystickCommand(swerveDrivetrain);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.

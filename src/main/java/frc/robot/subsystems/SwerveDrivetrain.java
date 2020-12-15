@@ -19,8 +19,8 @@ import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.trajectory.constraint.SwerveDriveKinematicsConstraint;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.AbsoluteEncoder;
-import frc.robot.Constants;
 import frc.robot.Utils;
+import static frc.robot.Constants.*;
 
 public class SwerveDrivetrain extends SubsystemBase {
 
@@ -44,8 +44,6 @@ public class SwerveDrivetrain extends SubsystemBase {
         private AbsoluteEncoder m_backLeftTurningEncoder;
         private AbsoluteEncoder m_backRightTurningEncoder;
 
-        private Constants m_constants;
-
         private double m_xSpeed;
         private double m_ySpeed;
         private double m_rotSpeed;
@@ -62,43 +60,39 @@ public class SwerveDrivetrain extends SubsystemBase {
         /**
          * Creates a new SwerveDrivetrain.
          */
-        public SwerveDrivetrain(Constants constants) {
-                m_constants = constants;
-                m_frontLeftDriveMotor = new CANSparkMax(m_constants.m_frontLeftDriveMotorPort, MotorType.kBrushless);
-                m_frontRightDriveMotor = new CANSparkMax(m_constants.m_frontRightDriveMotorPort, MotorType.kBrushless);
-                m_backLeftDriveMotor = new CANSparkMax(m_constants.m_backLeftDriveMotorPort, MotorType.kBrushless);
-                m_backRightDriveMotor = new CANSparkMax(m_constants.m_backRightDriveMotorPort, MotorType.kBrushless);
+        public SwerveDrivetrain() {
+                m_frontLeftDriveMotor = new CANSparkMax(FRONT_LEFT_DRIVE_MOTOR_PORT, MotorType.kBrushless);
+                m_frontRightDriveMotor = new CANSparkMax(FRONT_RIGHT_DRIVE_MOTOR_PORT, MotorType.kBrushless);
+                m_backLeftDriveMotor = new CANSparkMax(BACK_LEFT_DRIVE_MOTOR_PORT, MotorType.kBrushless);
+                m_backRightDriveMotor = new CANSparkMax(BACK_RIGHT_DRIVE_MOTOR_PORT, MotorType.kBrushless);
 
-                m_frontLeftTurningMotor = new CANSparkMax(m_constants.m_frontLeftTurningMotorPort,
-                                MotorType.kBrushless);
-                m_frontRightTurningMotor = new CANSparkMax(m_constants.m_frontRightTurningMotorPort,
-                                MotorType.kBrushless);
-                m_backLeftTurningMotor = new CANSparkMax(m_constants.m_backLeftTurningMotorPort, MotorType.kBrushless);
-                m_backRightTurningMotor = new CANSparkMax(m_constants.m_backRightTurningMotorPort,
-                                MotorType.kBrushless);
+                m_frontLeftTurningMotor = new CANSparkMax(FRONT_LEFT_TURNING_MOTOR_PORT, MotorType.kBrushless);
+                m_frontRightTurningMotor = new CANSparkMax(FRONT_RIGHT_TURNING_MOTOR_PORT, MotorType.kBrushless);
+                m_backLeftTurningMotor = new CANSparkMax(BACK_LEFT_TURNING_MOTOR_PORT, MotorType.kBrushless);
+                m_backRightTurningMotor = new CANSparkMax(BACK_RIGHT_TURNING_MOTOR_PORT, MotorType.kBrushless);
 
                 m_frontLeftDriveMotor.setInverted(true);
                 m_backLeftDriveMotor.setInverted(true);
                 m_frontRightDriveMotor.setInverted(false);
                 m_backRightDriveMotor.setInverted(false);
 
-                m_frontLeftTurningEncoder = new AbsoluteEncoder(m_constants.m_frontLeftTurningEncoderPort, true,
-                                constants.frontLeftSwerveOffset);
-                m_frontRightTurningEncoder = new AbsoluteEncoder(m_constants.m_frontRightTurningEncoderPort, true,
-                                constants.frontRightSwerveOffset);
-                m_backLeftTurningEncoder = new AbsoluteEncoder(m_constants.m_backLeftTurningEncoderPort, true,
-                                constants.backLeftSwerveOffset);
-                m_backRightTurningEncoder = new AbsoluteEncoder(m_constants.m_backRightTurningEncoderPort, true,
-                                constants.backRightSwerveOffset);
+                m_frontLeftTurningEncoder = new AbsoluteEncoder(FRONT_LEFT_TURNING_ENCODER_PORT, true,
+                                FRONT_LEFT_SWERVE_OFFSET);
+                m_frontRightTurningEncoder = new AbsoluteEncoder(FRONT_RIGHT_TURNING_ENCODER_PORT, true,
+                                FRONT_RIGHT_SWERVE_OFFSET);
+                m_backLeftTurningEncoder = new AbsoluteEncoder(BACK_RIGHT_TURNING_ENCODER_PORT, true,
+                                BACK_LEFT_SWERVE_OFFSET);
+                m_backRightTurningEncoder = new AbsoluteEncoder(BACK_LEFT_TURNING_ENCODER_PORT, true,
+                                BACK_RIGHT_SWERVE_OFFSET);
 
-                m_frontLeftSwerveWheel = new SwerveWheel(m_frontLeftDriveMotor, m_frontLeftTurningMotor,
-                                -m_constants.swerveX, m_constants.swerveY, m_frontLeftTurningEncoder, constants);
-                m_backLeftSwerveWheel = new SwerveWheel(m_backLeftDriveMotor, m_backLeftTurningMotor,
-                                -m_constants.swerveX, -m_constants.swerveY, m_backLeftTurningEncoder, constants);
-                m_frontRightSwerveWheel = new SwerveWheel(m_frontRightDriveMotor, m_frontRightTurningMotor,
-                                m_constants.swerveX, m_constants.swerveY, m_frontRightTurningEncoder, constants);
-                m_backRightSwerveWheel = new SwerveWheel(m_backRightDriveMotor, m_backRightTurningMotor,
-                                m_constants.swerveX, -m_constants.swerveY, m_backRightTurningEncoder, constants);
+                m_frontLeftSwerveWheel = new SwerveWheel(m_frontLeftDriveMotor, m_frontLeftTurningMotor, -SWERVE_X,
+                                SWERVE_Y, m_frontLeftTurningEncoder);
+                m_backLeftSwerveWheel = new SwerveWheel(m_backLeftDriveMotor, m_backLeftTurningMotor, -SWERVE_X,
+                                -SWERVE_Y, m_backLeftTurningEncoder);
+                m_frontRightSwerveWheel = new SwerveWheel(m_frontRightDriveMotor, m_frontRightTurningMotor, SWERVE_X,
+                                SWERVE_Y, m_frontRightTurningEncoder);
+                m_backRightSwerveWheel = new SwerveWheel(m_backRightDriveMotor, m_backRightTurningMotor, SWERVE_X,
+                                -SWERVE_Y, m_backRightTurningEncoder);
 
                 m_kinematics = new SwerveDriveKinematics(m_frontLeftSwerveWheel.getLocation(),
                                 m_frontRightSwerveWheel.getLocation(), m_backLeftSwerveWheel.getLocation(),
@@ -106,8 +100,8 @@ public class SwerveDrivetrain extends SubsystemBase {
 
                 m_gyro = new AHRS();
 
-                m_pidController = new PIDController(Math.toRadians((m_constants.maxMetersPerSecond / 180) * 5), 0, 0); // needs
-                                                                                                                       // import
+                m_pidController = new PIDController(Math.toRadians((MAX_METERS_PER_SECOND / 180) * 5), 0, 0); // needs
+                                                                                                              // import
                 m_pidController.enableContinuousInput(0, Math.PI * 2);
                 m_pidController.setTolerance(1 / 36); // if off by a lil bit, then dont do anything (is in radians)
         }
@@ -123,7 +117,7 @@ public class SwerveDrivetrain extends SubsystemBase {
         public void periodic() {
                 ChassisSpeeds desiredSpeed = new ChassisSpeeds(m_xSpeed, m_ySpeed, m_rotSpeed);
                 SwerveModuleState[] desiredSwerveModuleStates = m_kinematics.toSwerveModuleStates(desiredSpeed);
-                SwerveDriveKinematics.normalizeWheelSpeeds(desiredSwerveModuleStates, m_constants.maxMetersPerSecond);
+                SwerveDriveKinematics.normalizeWheelSpeeds(desiredSwerveModuleStates, MAX_METERS_PER_SECOND);
                 m_frontLeftSwerveWheel.setState(desiredSwerveModuleStates[0]);
                 m_frontRightSwerveWheel.setState(desiredSwerveModuleStates[1]);
                 m_backLeftSwerveWheel.setState(desiredSwerveModuleStates[2]);
