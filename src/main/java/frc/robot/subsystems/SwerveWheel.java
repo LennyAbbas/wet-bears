@@ -28,6 +28,7 @@ public class SwerveWheel {
     private PIDController m_turningPIDController;
     private AbsoluteEncoder m_turningEncoder;
     private Constants m_constants;
+    private SwerveModuleState m_state;
 
     public SwerveWheel(CANSparkMax driveMotor, CANSparkMax turningMotor, double x, double y, AbsoluteEncoder encoder,
             Constants constants) {
@@ -41,37 +42,8 @@ public class SwerveWheel {
 
     }
 
-    public Translation2d getLocation() {
-        return m_location;
-
-    }
-
-    private double smartInversion(SwerveModuleState targetState) {
-        double diff = Math.abs(m_turningEncoder.getRadians() - targetState.angle.getRadians());
-        double targetHeading = targetState.angle.getRadians();
-        // Making sure we have the smallest difference of the two paths around the
-        // circle
-        if (diff > Math.PI) {
-            diff = Math.PI * 2 - diff;
-        }
-        // inverting the velocity to achieve a shorter path
-        if (diff > Math.PI / 2) {
-            targetHeading += Math.PI;
-            targetHeading %= (Math.PI * 2);
-            targetState.speedMetersPerSecond *= -1;
-        }
-
-        m_turningPIDController.setSetpoint((targetHeading % (Math.PI * 2) + (Math.PI * 2)) % (Math.PI * 2));
-        return targetState.speedMetersPerSecond;
-    }
-
-    public void setDesiredState(SwerveModuleState state) {
-
-        double driveOutput = smartInversion(state);
-        m_driveMotor.set(driveOutput / m_constants.maxMetersPerSecond);
-        double pidOutput = m_turningPIDController.calculate(m_turningEncoder.getRadians());
-
-        m_turningMotor.set(pidOutput);
+    public void setState(SwerveModuleState state) {
+        m_driveMotor.set(state.speedMetersPerSecond / m_constants.maxMetersPerSecond);
 
     }
 
