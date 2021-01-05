@@ -44,4 +44,8 @@ public class SwerveWheel {
 
     }
 
+    public Translation2d getLocation() {
+        return m_location;
+    }
+
 }

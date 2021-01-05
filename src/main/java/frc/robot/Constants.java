@@ -18,34 +18,43 @@ package frc.robot;
  * wherever the constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public static final double MAX_METERS_PER_SECOND = 3.66;
-    public static final double MAX_RADIANS_PER_SECOND = 8.76;
+    public final class SwervePorts {
+        public static final int FRONT_LEFT_DRIVE_MOTOR_PORT = 8;
+        public static final int FRONT_LEFT_TURNING_MOTOR_PORT = 1;
 
-    public static final int FRONT_LEFT_DRIVE_MOTOR_PORT = 8;
-    public static final int FRONT_LEFT_TURNING_MOTOR_PORT = 1;
+        public static final int FRONT_RIGHT_DRIVE_MOTOR_PORT = 4;
+        public static final int FRONT_RIGHT_TURNING_MOTOR_PORT = 5;
 
-    public static final int FRONT_RIGHT_DRIVE_MOTOR_PORT = 4;
-    public static final int FRONT_RIGHT_TURNING_MOTOR_PORT = 5;
+        public static final int BACK_LEFT_DRIVE_MOTOR_PORT = 2;
+        public static final int BACK_LEFT_TURNING_MOTOR_PORT = 3;
 
-    public static final int BACK_LEFT_DRIVE_MOTOR_PORT = 2;
-    public static final int BACK_LEFT_TURNING_MOTOR_PORT = 3;
+        public static final int BACK_RIGHT_DRIVE_MOTOR_PORT = 6;
+        public static final int BACK_RIGHT_TURNING_MOTOR_PORT = 7;
 
-    public static final int BACK_RIGHT_DRIVE_MOTOR_PORT = 6;
-    public static final int BACK_RIGHT_TURNING_MOTOR_PORT = 7;
+        public static final int FRONT_LEFT_TURNING_ENCODER_PORT = 0;
+        public static final int FRONT_RIGHT_TURNING_ENCODER_PORT = 1;
+        public static final int BACK_LEFT_TURNING_ENCODER_PORT = 2;
+        public static final int BACK_RIGHT_TURNING_ENCODER_PORT = 3;
 
-    public static final double SWERVE_X = .67 / 2;
-    public static final double SWERVE_Y = .25;
+    }
 
-    public static final int FRONT_LEFT_TURNING_ENCODER_PORT = 0;
-    public static final int FRONT_RIGHT_TURNING_ENCODER_PORT = 1;
-    public static final int BACK_LEFT_TURNING_ENCODER_PORT = 2;
-    public static final int BACK_RIGHT_TURNING_ENCODER_PORT = 3;
+    /**
+     * @param Swerve_X x offset from center of rotation
+     * @param SWERVE_Y y offset from center of rotation
+     */
+    public final class SwerveConstants {
+        public static final double MAX_METERS_PER_SECOND = 3.627;
+        public static final double MAX_RADIANS_PER_SECOND = 8.76;
 
-    public static final double FRONT_LEFT_SWERVE_OFFSET = 2.254991;
-    public static final double FRONT_RIGHT_SWERVE_OFFSET = 2.466641;
-    public static final double BACK_LEFT_SWERVE_OFFSET = .279;
-    public static final double BACK_RIGHT_SWERVE_OFFSET = 3.25;
+        public static final double SWERVE_X = .67 / 2;
+        public static final double SWERVE_Y = .25;
 
-    public static final double TRANSLATIONAL_FRICTION = 0.0205;
+        public static final double TRANSLATIONAL_FRICTION = 0.0205;
+
+        public static final double FRONT_LEFT_ROTATION_OFFSET = 2.254991;
+        public static final double FRONT_RIGHT_ROTATION_OFFSET = 2.466641;
+        public static final double BACK_LEFT_ROTATION_OFFSET = .279;
+        public static final double BACK_RIGHT_ROTATION_OFFSET = 3.25;
+    }
 
 }
