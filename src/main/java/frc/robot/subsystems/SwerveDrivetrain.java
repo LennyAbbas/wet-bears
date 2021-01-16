@@ -16,10 +16,8 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.trajectory.constraint.SwerveDriveKinematicsConstraint;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.AbsoluteEncoder;
-import frc.robot.Utils;
 import frc.robot.Constants.SwervePorts;
 import frc.robot.Constants.SwerveConstants;
 
@@ -49,11 +47,9 @@ public class SwerveDrivetrain extends SubsystemBase {
         private double m_ySpeed;
         private double m_rotSpeed;
         private boolean m_isFieldRelative;
+        private Rotation2d m_gyro;
 
         private SwerveDriveKinematics m_kinematics;
-
-        private AHRS m_gyro;
-        private boolean m_isTurning; // dont want it to reset each time a method is called, want to save it
 
         // need pid to save headings/dynamic controls
         private PIDController m_pidController;
@@ -83,31 +79,30 @@ public class SwerveDrivetrain extends SubsystemBase {
                 m_backRightDriveMotor.setInverted(false);
 
                 m_frontLeftTurningEncoder = new AbsoluteEncoder(SwervePorts.FRONT_LEFT_TURNING_ENCODER_PORT, true,
-                                SwerveRotationOffset.FRONT_LEFT_SWERVE_ROTATION_OFFSET);
+                                SwerveConstants.FRONT_LEFT_ROTATION_OFFSET);
                 m_frontRightTurningEncoder = new AbsoluteEncoder(SwervePorts.FRONT_RIGHT_TURNING_ENCODER_PORT, true,
-                                SwerveRotationOffset.FRONT_RIGHT_SWERVE_ROTATION_OFFSET);
+                                SwerveConstants.FRONT_RIGHT_ROTATION_OFFSET);
                 m_backLeftTurningEncoder = new AbsoluteEncoder(SwervePorts.BACK_RIGHT_TURNING_ENCODER_PORT, true,
-                                SwerveRotationOffset.BACK_LEFT_SWERVE_ROTATION_OFFSET);
+                                SwerveConstants.BACK_LEFT_ROTATION_OFFSET);
                 m_backRightTurningEncoder = new AbsoluteEncoder(SwervePorts.BACK_LEFT_TURNING_ENCODER_PORT, true,
-                                SwerveRotationOffset.BACK_RIGHT_SWERVE_ROTATION_OFFSET);
+                                SwerveConstants.BACK_RIGHT_ROTATION_OFFSET);
 
                 m_frontLeftSwerveWheel = new SwerveWheel(m_frontLeftDriveMotor, m_frontLeftTurningMotor,
-                                -SWERVE_X_DELTA, SWERVE_Y, m_frontLeftTurningEncoder);
-                m_backLeftSwerveWheel = new SwerveWheel(m_backLeftDriveMotor, m_backLeftTurningMotor, SwerveConstraints.-SWERVE_X_DELTA,
-                                -SWERVE_Y, m_backLeftTurningEncoder);
-                m_frontRightSwerveWheel = new SwerveWheel(m_frontRightDriveMotor, m_frontRightTurningMotor, SWERVE_X,
-                                SWERVE_Y, m_frontRightTurningEncoder);
-                m_backRightSwerveWheel = new SwerveWheel(m_backRightDriveMotor, m_backRightTurningMotor, SWERVE_X,
-                                -SWERVE_Y, m_backRightTurningEncoder);
+                                -SwerveConstants.SWERVE_X, SwerveConstants.SWERVE_Y, m_frontLeftTurningEncoder);
+                m_backLeftSwerveWheel = new SwerveWheel(m_backLeftDriveMotor, m_backLeftTurningMotor,
+                                -SwerveConstants.SWERVE_X, -SwerveConstants.SWERVE_Y, m_backLeftTurningEncoder);
+                m_frontRightSwerveWheel = new SwerveWheel(m_frontRightDriveMotor, m_frontRightTurningMotor,
+                                SwerveConstants.SWERVE_X, SwerveConstants.SWERVE_Y, m_frontRightTurningEncoder);
+                m_backRightSwerveWheel = new SwerveWheel(m_backRightDriveMotor, m_backRightTurningMotor,
+                                SwerveConstants.SWERVE_X, -SwerveConstants.SWERVE_Y, m_backRightTurningEncoder);
 
                 m_kinematics = new SwerveDriveKinematics(m_frontLeftSwerveWheel.getLocation(),
                                 m_frontRightSwerveWheel.getLocation(), m_backLeftSwerveWheel.getLocation(),
                                 m_backRightSwerveWheel.getLocation());
 
-                m_gyro = new AHRS();
-
-                m_pidController = new PIDController(Math.toRadians((MAX_METERS_PER_SECOND / 180) * 5), 0, 0); // needs
-                                                                                                              // import
+                m_pidController = new PIDController(Math.toRadians((SwerveConstants.MAX_METERS_PER_SECOND / 180) * 5),
+                                0, 0); // needs
+                // import
                 m_pidController.enableContinuousInput(0, Math.PI * 2);
                 m_pidController.setTolerance(1 / 36); // if off by a lil bit, then dont do anything (is in radians)
         }
@@ -117,13 +112,20 @@ public class SwerveDrivetrain extends SubsystemBase {
                 m_ySpeed = ySpeed;
                 m_rotSpeed = rotSpeed;
                 m_isFieldRelative = isFieldRelative;
+
         }
 
         @Override
         public void periodic() {
                 ChassisSpeeds desiredSpeed = new ChassisSpeeds(m_xSpeed, m_ySpeed, m_rotSpeed);
+
+                if (this.m_isFieldRelative) {
+                        ChassisSpeeds.fromFieldRelativeSpeeds(m_xSpeed, m_ySpeed, m_rotSpeed, m_gyro);
+                }
+
                 SwerveModuleState[] desiredSwerveModuleStates = m_kinematics.toSwerveModuleStates(desiredSpeed);
-                SwerveDriveKinematics.normalizeWheelSpeeds(desiredSwerveModuleStates, MAX_METERS_PER_SECOND);
+                SwerveDriveKinematics.normalizeWheelSpeeds(desiredSwerveModuleStates,
+                                SwerveConstants.MAX_METERS_PER_SECOND);
                 m_frontLeftSwerveWheel.setState(desiredSwerveModuleStates[0]);
                 m_frontRightSwerveWheel.setState(desiredSwerveModuleStates[1]);
                 m_backLeftSwerveWheel.setState(desiredSwerveModuleStates[2]);

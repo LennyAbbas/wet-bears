@@ -38,15 +38,18 @@ public final class Constants {
 
     }
 
-    /**
-     * @param Swerve_X x offset from center of rotation
-     * @param SWERVE_Y y offset from center of rotation
-     */
     public final class SwerveConstants {
         public static final double MAX_METERS_PER_SECOND = 3.627;
         public static final double MAX_RADIANS_PER_SECOND = 8.76;
 
+        /**
+         * X offset from the center of rotation.
+         */
         public static final double SWERVE_X = .67 / 2;
+
+        /**
+         * Y offset from the center of rotation.
+         */
         public static final double SWERVE_Y = .25;
 
         public static final double TRANSLATIONAL_FRICTION = 0.0205;

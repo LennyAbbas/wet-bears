@@ -8,15 +8,12 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.ControlType;
 
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.trajectory.Trajectory.State;
 import frc.robot.AbsoluteEncoder;
-import static frc.robot.Constants.*;
+import frc.robot.Constants.SwerveConstants;
 
 /**
  * Add your docs here.
@@ -40,7 +37,7 @@ public class SwerveWheel {
     }
 
     public void setState(SwerveModuleState state) {
-        m_driveMotor.set(state.speedMetersPerSecond / MAX_METERS_PER_SECOND);
+        m_driveMotor.set(state.speedMetersPerSecond / SwerveConstants.MAX_METERS_PER_SECOND);
 
     }
 
